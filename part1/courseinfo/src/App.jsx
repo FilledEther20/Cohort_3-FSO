@@ -1,51 +1,67 @@
-const Part=({part,exercise})=>{
-  return(
+const Part = ({ part }) => {
+  return (
     <>
-      <p>{part} {exercise}</p>
+      <p>
+        {part.name} {part.exercises}
+      </p>
     </>
-  )
-}
-const Header=({course})=>{
-  return(
+  );
+};
+const Header = ({ course }) => {
+  return (
     <>
       <h1>{course}</h1>
     </>
-  )
-}
-const Content=({parts,exercise})=>{
-  return(
-    <>
-      {parts.map((val,id)=>(
-        <Part key={id} part={val} exercise={exercise[id]}/>
-      ))}
-    </>
-  )
-}
-
-const Total=({exercise})=>{
-  return(
-    <>
-      <p>The total number of exercises is {exercise.reduce((acc,val)=>acc+val)}</p>
-    </>
-  )
-}
-const App=()=> {
-  const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
-  const parts=[part1,part2,part3]
-  const exercise=[exercises1,exercises2,exercises3]
+  );
+};
+const Content = ({ parts }) => {
   return (
     <>
-      <Header course={course}/>
-      <Content parts={parts} exercise={exercise}/>
-      <Total exercise={exercise}/>
+      {parts.map((part, id) => (
+        <Part key={id} part={part} />
+      ))}
     </>
-  )
-}
+  );
+};
 
-export default App
+const Total = ({ parts }) => {
+  const tot = parts
+    .map((part) => part.exercises)
+    .reduce((acc, val) => acc + val);
+  console.log(tot)
+  return (
+    <>
+      <p>
+        Total number of exercises is {tot}
+      </p>
+    </>
+  );
+};
+const App = () => {
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
+  return (
+    <>
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
+    </>
+  );
+};
+
+export default App;
